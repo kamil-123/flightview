@@ -12,7 +12,7 @@ const sbContainer = {
 
 function SearchBar(props) {
 
-  const {handleSearchClick, selectedItemFrom, setSelectedItemFrom, selectedItemTo, setSelectedItemTo} = props
+  const {handleSearchClick, selectedItemFrom, setSelectedItemFrom, selectedItemTo, setSelectedItemTo, checkValue, onCheckboxChangeHandler} = props
 
   const listItemsFrom = [
     <p key={0}>Valencia</p>,
@@ -45,7 +45,9 @@ function SearchBar(props) {
         >
         {listItemsTo}  
       </Dropdown>
-      
+      <label> Direct flight
+        <input type="checkbox" checked={checkValue} onChange={() => onCheckboxChangeHandler()}/>
+      </label>
       <button className='searchBar-Button' onClick={handleSearchClick}>Search</button>
 
       

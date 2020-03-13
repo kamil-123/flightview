@@ -13,6 +13,7 @@ function App() {
   const [searched, setSearched ] = useState(false)
   const [destTo,setDestTo] = useState('')
   const [destFrom,setDestFrom] = useState('')
+  const [checkValue,setCheckValue] = useState(false)
   
   const handleKeyPress = (e) => {
     if(e.key === 'Enter') {
@@ -42,6 +43,10 @@ function App() {
     
   }
 
+  const onCheckboxChangeHandler = ()=>{
+    setCheckValue(!checkValue)
+    console.log('check label',checkValue)  
+  }
   
     return (
       <div className="App">
@@ -54,9 +59,11 @@ function App() {
         setSelectedItemFrom={setSelectedItemFrom}
         selectedItemTo={selectedItemTo}
         setSelectedItemTo={setSelectedItemTo}
+        checkValue={checkValue}
+        onCheckboxChangeHandler={onCheckboxChangeHandler}
       />
       <br />
-      < SearchResults searched={searched} destFrom={destFrom} destTo={destTo} />
+      < SearchResults searched={searched} destFrom={destFrom} destTo={destTo} direct={checkValue}/>
     </div>
     )
   
