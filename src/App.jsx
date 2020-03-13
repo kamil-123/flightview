@@ -63,7 +63,7 @@ function App() {
         onCheckboxChangeHandler={onCheckboxChangeHandler}
       />
       <br />
-      < SearchResults searched={searched} destFrom={destFrom} destTo={destTo} direct={checkValue}/>
+      < SearchResults searched={searched} destFrom={destFrom} destTo={destTo} checkValue={checkValue}/>
     </div>
     )
   
