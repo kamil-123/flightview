@@ -7,7 +7,7 @@ function SearchResults({searched, destFrom, destTo}) {
   const [ flightResults, setFlightResults] = useState([])
   const [ numberOfResults, setNumberOfResults ] = useState(5)
   const [ hideButton, setHideButton ] = useState(true)
-  const [ dataNumberOfResults, setDataNumberOfResults] = useState(100)
+  const [ dataNumberOfResults, setDataNumberOfResults] = useState(0)
   const [ loading, setLoading ] = useState(searched)
   
 
@@ -31,7 +31,8 @@ function SearchResults({searched, destFrom, destTo}) {
     if(searched === false || origin === undefined || destination === undefined) {
       return
     }
-    
+    setLoading(true)
+
     const when = DateTime.local().plus({ days: 1 }).toFormat('dd/MM/yyyy');
     const query = new URLSearchParams({
       partner: 'picky',
@@ -47,6 +48,7 @@ function SearchResults({searched, destFrom, destTo}) {
       const data = await promise.json()
       setFlightResults(data.data)
       setDataNumberOfResults(data._results)
+      setHideButton(false)
       setLoading(false)
       if (numberOfResults < dataNumberOfResults) {
         setHideButton(false)
@@ -60,14 +62,16 @@ function SearchResults({searched, destFrom, destTo}) {
   }
 
   const renderedFlights = flightResults.map(data => {
+    console.log(data.transfers.length)
     let departureDate = DateTime.fromMillis(data.dTime * 1000).toFormat('hh:mm')
     let arrivalDate = DateTime.fromMillis(data.aTime * 1000).toFormat('hh:mm')
     return (
       <div key={data.id}>
         <p>From: {data.cityFrom} at {departureDate}</p>
         <p>To: {data.cityTo} at {arrivalDate}</p>
+        <p>Number of layovers: {(data.transfers.length === '0') ? 'Direct' : data.transfers.length}</p>
         <p>Length: {data.fly_duration}</p>
-        <p> Price: {data.price}</p>
+        <p> Price: {data.price} €</p>
         <hr />
       </div>
     )
