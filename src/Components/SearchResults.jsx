@@ -7,13 +7,20 @@ function SearchResults({searched}) {
   const [ flightResults, setFlightResults] = useState([])
   const [ numberOfResults, setNumberOfResults ] = useState(5)
   const [ hideButton, setHideButton ] = useState(false)
-  const [ dataNumberOfResults, setDataNumberOfResults] = useState(0)
+  const [ dataNumberOfResults, setDataNumberOfResults] = useState(100)
   const [ loading, setLoading ] = useState(true)
-  const [ shouldFire, setShouldFire ] = useState(false)
   
 
   useEffect(() => {
     getFlights()}, [searched])
+
+  useEffect(() => {
+    getFlights()}, [numberOfResults])
+
+  useEffect(() => {
+    if(dataNumberOfResults < numberOfResults) {
+      console.log('hidebutton')
+    }}, [numberOfResults] )
 
 
   const handleMoreResultsClick = () => {
@@ -23,10 +30,8 @@ function SearchResults({searched}) {
   const getFlights = async (origin='PRG', destination='CDG', direct='1') => {
     
     if(searched === false) {
-      console.log(shouldFire)
       return
     }
-    console.log(shouldFire)
     const when = DateTime.local().plus({ days: 1 }).toFormat('dd/MM/yyyy');
     const query = new URLSearchParams({
       partner: 'picky',
@@ -43,6 +48,9 @@ function SearchResults({searched}) {
       setFlightResults(data.data)
       setDataNumberOfResults(data._results)
       setLoading(false)
+      if (numberOfResults + 5 > dataNumberOfResults) {
+        setHideButton(true)
+      }
 
     } catch(err) {
       console.log('error fetching flights', err)
