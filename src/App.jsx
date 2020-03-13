@@ -3,18 +3,23 @@ import './App.css';
 import SearchBar from './Components/SearchBar.jsx'
 import SearchResults from './Components/SearchResults.jsx'
 
+
 const url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&origin=*&srsearch='
 const pageOffsetPrefix = '&sroffset='
 
 function App() {
   const [selectedItemFrom, setSelectedItemFrom] = useState('Select From destination')
   const [selectedItemTo,setSelectedItemTo] = useState('Select To destination')
+  const [searched, setSearched ] = useState(false)
   
   const handleKeyPress = (e) => {
-    if(e.key === 'Enter') handleSearchClick()
+    if(e.key === 'Enter') {
+      handleSearchClick()
   }
-  const handleSearchClick = async () => {
-    console.log('selected item', selectedItemFrom)
+    } 
+  const handleSearchClick = () => {
+    setSearched(true)
+    
   }
 
   
@@ -30,7 +35,8 @@ function App() {
         selectedItemTo={selectedItemTo}
         setSelectedItemTo={setSelectedItemTo}
       />
-        < SearchResults />
+      <br />
+      < SearchResults searched={searched} />
     </div>
     )
   

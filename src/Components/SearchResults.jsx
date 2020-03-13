@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 
+
 function SearchResults(props) {
   const [ flightResults, setFlightResults] = useState([])
   const [ numberOfResults, setNumberOfResults ] = useState(5)
   const [ hideButton, setHideButton ] = useState(false)
   const [ dataNumberOfResults, setDataNumberOfResults] = useState(0)
   const [ loading, setLoading ] = useState(true)
+  const { searched } = props
+  const [ shouldFire, setShouldFire ] = useState(false)
 
 
   useEffect(() => {
     getFlights()}, [numberOfResults])
 
-  useEffect(() => {
-
-
-  })
 
   const handleMoreResultsClick = () => {
       setNumberOfResults(numberOfResults + 5)
