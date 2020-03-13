@@ -3,18 +3,17 @@ import { DateTime } from 'luxon';
 
 
 
-function SearchResults(props) {
+function SearchResults({searched}) {
   const [ flightResults, setFlightResults] = useState([])
   const [ numberOfResults, setNumberOfResults ] = useState(5)
   const [ hideButton, setHideButton ] = useState(false)
   const [ dataNumberOfResults, setDataNumberOfResults] = useState(0)
   const [ loading, setLoading ] = useState(true)
-  const { searched } = props
   const [ shouldFire, setShouldFire ] = useState(false)
-
+  
 
   useEffect(() => {
-    getFlights()}, [numberOfResults])
+    getFlights()}, [searched])
 
 
   const handleMoreResultsClick = () => {
@@ -22,6 +21,12 @@ function SearchResults(props) {
   }
 
   const getFlights = async (origin='PRG', destination='CDG', direct='1') => {
+    
+    if(searched === false) {
+      console.log(shouldFire)
+      return
+    }
+    console.log(shouldFire)
     const when = DateTime.local().plus({ days: 1 }).toFormat('dd/MM/yyyy');
     const query = new URLSearchParams({
       partner: 'picky',
