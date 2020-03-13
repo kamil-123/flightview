@@ -3,16 +3,16 @@ import { DateTime } from 'luxon';
 
 
 
-function SearchResults({searched}) {
+function SearchResults({searched, destFrom, destTo}) {
   const [ flightResults, setFlightResults] = useState([])
   const [ numberOfResults, setNumberOfResults ] = useState(5)
-  const [ hideButton, setHideButton ] = useState(false)
+  const [ hideButton, setHideButton ] = useState(true)
   const [ dataNumberOfResults, setDataNumberOfResults] = useState(100)
-  const [ loading, setLoading ] = useState(true)
+  const [ loading, setLoading ] = useState(searched)
   
 
   useEffect(() => {
-    getFlights()}, [searched])
+    getFlights()}, [searched, destFrom, destTo])
 
   useEffect(() => {
     getFlights()}, [numberOfResults])
@@ -27,11 +27,11 @@ function SearchResults({searched}) {
       setNumberOfResults(numberOfResults + 5)
   }
 
-  const getFlights = async (origin='PRG', destination='CDG', direct='1') => {
-    
-    if(searched === false) {
+  const getFlights = async (origin=destFrom, destination=destTo, direct='1') => {
+    if(searched === false || origin === undefined || destination === undefined) {
       return
     }
+    
     const when = DateTime.local().plus({ days: 1 }).toFormat('dd/MM/yyyy');
     const query = new URLSearchParams({
       partner: 'picky',
@@ -48,7 +48,9 @@ function SearchResults({searched}) {
       setFlightResults(data.data)
       setDataNumberOfResults(data._results)
       setLoading(false)
-      if (numberOfResults + 5 > dataNumberOfResults) {
+      if (numberOfResults < dataNumberOfResults) {
+        setHideButton(false)
+      } else {
         setHideButton(true)
       }
 
