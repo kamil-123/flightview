@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import SearchBar from './Components/SearchBar.jsx'
-import SearchResults from './Components/SearchResults'
+import SearchResults from './Components/SearchResults.jsx'
 
 class App extends Component {
   render() {
