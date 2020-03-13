@@ -1,17 +1,39 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './Components/SearchBar.jsx'
 import SearchResults from './Components/SearchResults.jsx'
 
-class App extends Component {
-  render() {
+const url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&origin=*&srsearch='
+const pageOffsetPrefix = '&sroffset='
+
+function App() {
+  const [selectedItemFrom, setSelectedItemFrom] = useState('Select From destination')
+  const [selectedItemTo,setSelectedItemTo] = useState('Select To destination')
+  
+  const handleKeyPress = (e) => {
+    if(e.key === 'Enter') handleSearchClick()
+  }
+  const handleSearchClick = async () => {
+    console.log('selected item', selectedItemFrom)
+  }
+
+  
     return (
       <div className="App">
-        < SearchBar />
+        <SearchBar
+        handleKeyPress={handleKeyPress}
+        // searchValue={searchValue}
+        handleSearchClick={handleSearchClick}
+        // handleInputChange={handleInputChange}
+        selectedItemFrom={selectedItemFrom}
+        setSelectedItemFrom={setSelectedItemFrom}
+        selectedItemTo={selectedItemTo}
+        setSelectedItemTo={setSelectedItemTo}
+      />
         < SearchResults />
     </div>
-    );
-  }
+    )
+  
 }
 
 export default App;
