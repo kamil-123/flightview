@@ -11,13 +11,33 @@ function App() {
   const [selectedItemFrom, setSelectedItemFrom] = useState('Select From destination')
   const [selectedItemTo,setSelectedItemTo] = useState('Select To destination')
   const [searched, setSearched ] = useState(false)
+  const [destTo,setDestTo] = useState('')
+  const [destFrom,setDestFrom] = useState('')
   
   const handleKeyPress = (e) => {
     if(e.key === 'Enter') {
       handleSearchClick()
   }
     } 
+
+  const destinatios = {
+    'Prague':'PRG',
+    'Berlin':'BER',
+    'Warsaw':'WAW',
+    'Pardubice':'PED',
+    'Valencia':'VLC',
+    'Barcelona':'BCN',
+    'Madrid':'MAD',
+    'Milano':'MXP',
+    'Athens':'AHN',
+  }
+
   const handleSearchClick = () => {
+    setDestFrom(destinatios[selectedItemFrom])
+    setDestTo(destinatios[selectedItemTo])
+    // console.log(destFrom)
+    // console.log(destTo)
+    
     setSearched(true)
     
   }
@@ -36,7 +56,7 @@ function App() {
         setSelectedItemTo={setSelectedItemTo}
       />
       <br />
-      < SearchResults searched={searched} />
+      < SearchResults searched={searched} destFrom={destFrom} destTo={destTo} />
     </div>
     )
   
